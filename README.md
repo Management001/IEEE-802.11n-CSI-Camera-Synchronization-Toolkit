@@ -1,26 +1,50 @@
 # IEEE-802.11n-CSI-Camera-Synchronization-Toolkit
-* This repository is a part of an RF-based mobility detection and tracking project.
-* The goal of our research is to develop technology to recognize and track objects beyond walls using solely WiFi signals in the IEEE standards.
-  
-The purpose of this repository is to provide support for building the CSI-enabled **TP-Link AC1750** Wi-Fi drivers for Intel Wireless Link **Intel 5300 NIC** adapters on Linux distributions with **Unbuntu 14.01** versions. At this point, this code has been tested on Ubuntu **14.01**, **16.04**, and **18.04**.
+* This repository is part of an early-stage WiFi and camera data fusion-based human detection and motion estimation project.
+* The goal of our research is to develop a multimodal-based computer vision technology to detect and track objects beyond walls by adding IEEE 802.11 standard WiFi signals.
+* A multimodal approach that additionally utilizes WiFi signals can complement problems such as obstacles and object obscuration that occur in existing camera-based security and computer vision through the radio frequency (RF) signal characteristics.
 
-The code presented here comprises a modified version of the Linux kernel, such as the firmware command, and error lines of the original baseline. The modifications were made by examining the code provided by [dhalperi/linux-80211n-csitool](https://github.com/dhalperi/linux-80211n-csitool) and adapting them to more recent Linux kernel versions **- iwlwifi** and **wlp1s0** modules. The building and installation instructions were taken from [the original Linux 802.11n CSI Tool website](https://dhalperi.github.io/linux-80211n-csitool/) and adapted accordingly. Moreover, I referred to the synchronization method between CSI and Camera from [CSI-Tool-Camera-Shooting](https://github.com/qiyinghua/CSI-Tool-Camera-Shooting).
+This repository's purpose is to support building the CSI-enabled **TP-Link AC1750** Wi-Fi drivers for **Intel 5300 NIC** adapters on Linux distributions with **Ubuntu 14.01** versions. This code has been tested on Ubuntu **14.01**, **16.04**, and **18.04**, where we recommend setting up the CSI toolkit on the **Ubuntu 18.04 version**.
 
-Additionally, there have been initial toolkit issues discussed among mobility detection researchers who use WiFi signals and Channel State Information (CSI). To this end, we provide a calculation function **newly_csi_analyzer.m** of amplitude and phase, and signal processing from the acquired CSI samples. Herein, I referred to novel approaches [DensePose From WiFi](https://arxiv.org/abs/2301.00250) and [Can WiFi Estimate Person Pose?](https://arxiv.org/abs/1904.00277).
+The code presented here comprises a modified and merged version of the Linux kernel, such as the firmware command, and error lines of the original baseline. The modifications were made by examining the code provided by [dhalperi/linux-80211n-csitool](https://github.com/dhalperi/linux-80211n-csitool) and adapting them to more recent Linux kernel versions **- iwlwifi** and **wlp1s0** modules. The building and installation instructions were taken from [the original Linux 802.11n CSI Tool website](https://dhalperi.github.io/linux-80211n-csitool/) and adapted accordingly. Moreover, I referred to the synchronization method between CSI and Camera from [CSI-Tool-Camera-Shooting](https://github.com/qiyinghua/CSI-Tool-Camera-Shooting).
+
+Additionally, initial toolkit issues have been discussed among mobility detection researchers using WiFi signals and Channel State Information (CSI). To this end, we provide a calculation function **newly_csi_analyzer.m** of amplitude and phase, and signal processing from the acquired CSI samples. Herein, I referred to novel approaches [DensePose From WiFi](https://arxiv.org/abs/2301.00250) and [Can WiFi Estimate Person Pose?](https://arxiv.org/abs/1904.00277).
+
+# Experiment configuration
+- The toolkit demonstration video is uploaded to [YouTube channel](https://www.youtube.com/watch?v=X-kNQRrQUlE).
+
+<table>
+  <tr>
+    <td><img src="/README_images/configulation 1.jpg" width="300" height="180"/></td>
+    <td><img src="/README_images/configulation 2.jpg" width="300" height="180"/></td>
+    <td><img src="/README_images/configulation 3.jpg" width="300" height="180"/></td>
+  </tr>
+</table>
+
+# WiFi signals and human posture correlation
+- The experimental results demonstrate that WiFi signal characteristics vary according to human postures. Specifically, the difference in phase values between standing and sitting postures is more pronounced. This suggests that the distinct signal features can be employed for accurately training multimodal deep learning models for object detection, tracking, and pose estimation without solely relying on vision information.
+
+<table>
+  <tr>
+    <td><img src="/README_images/handsup.jpg" width="300" height="180"/></td>
+    <td><img src="/README_images/standsup.jpg" width="300" height="180"/></td>
+    <td><img src="/README_images/sitdown.jpg" width="300" height="180"/></td>
+  </tr>
+  <tr>
+    <td><img src="/README_images/handsup_plot.png" width="300" height="180"/></td>
+    <td><img src="/README_images/standup_plot.png" width="300" height="180"/></td>
+    <td><img src="/README_images/sitdown_plot.png" width="300" height="180"/></td>
+  </tr>
+</table>
 
 # Project Members
-#### [Youngwoo Oh (M.S. student, Project leader from May 2023 to Feb. 2024)](https://ohyoungwoo.com/)
-- Integrated two sensing values including RF signals and captured video from the router and Camera by developing these Linux toolkit codes.
-- Signal processing, and project software and hardware configuration.
-
-#### [Jungtae Kang (Undergraduate student, Project follower)](https://kangjeongtae.com/)
-- Supporting the generation of CSI samples and Camera images.
-- Writing [Winter Conference on Korea Information and Communications Society (KICS) conference](https://conf.kics.or.kr/) papers named *Collection and analysis of CSI in IEEE 802.11n wireless LAN environment for WiFi signal-based human mobility detection* and *Design of WiFi signal-based Multi-modal KNN deep learning approaches for improving anomaly object detection and classification methods*.
-- He will follow up on this *Novel multi-modal approaches-based object detection/tracking/recognition methods* in his future research.
+#### [Youngwoo Oh](https://ohyoungwoo.com/) (M.S. student, Project leader from May 2023 to Feb. 2024 (for 10 months))
+- Integrated data fusion between WiFi signals and captured video from the router and cameras by developing the [Linux toolkit codes](https://github.com/FIVEYOUNGWOO/IEEE-802.11n-CSI-Camera-Synchronization-Toolkit).
+- Responsible for data fusion and SW/HW configuration and Produced a Teacher-Student approach to detect and track objects beyond walls and obstacles.
+- Wrote papers for the [2024 Winter Conference on Korea Information and Communications Society (KICS)](https://conf.kics.or.kr/) titled "*Collection and Analysis of CSI in IEEE 802.11n Wireless LAN Environments for WiFi Signal-Based Human Mobility Detection*" and "*Design and Implementation of a MultiModal Learning Model for RF-Based Object Tracking Methods*".
   
 #### Islam Helemy (Ph.D. student, Project member)
 - Responsible for the development of the Multi-modal AI and the pre-processing to generate training data pairs (CSI samples-captured images).
-- He will receive a *project leader* position on this future project after Feb. 2024.
+- He will receive a *project leader* position on this future project after Mar. 2024.
 
 #### Iftikhar Ahmad (Ph.D. student, Project member)
 - Focused on developing the Teacher network in the multi-modal AI model.
@@ -28,8 +52,8 @@ Additionally, there have been initial toolkit issues discussed among mobility de
 #### Manal Mosharaf (M.S. student, Project member)
 - Engaged in developing the Student network in the multi-modal AI model.
 
-# Toolkit Demonstration
-Will be upload
+#### [Jungtae Kang](https://kangjeongtae.com/) (Undergraduate student, Project follower)
+- Supporting the generation of CSI samples and Camera images.
 
 # 1. Installation instructions of integrated CSI toolkit
 ## (1). Kernel version:
@@ -48,7 +72,7 @@ sudo add-apt-repository ppa:ubuntu-toolchain-r/test
 ```ruby
 sudo apt-get update
 ```
-If you don't need to install this gcc version, skip a below line :)
+If you don't need to install this gcc version, skip the below line :)
 ```ruby
 sudo apt-get install gcc-8 g++-8
 ```
@@ -81,7 +105,7 @@ CSITOOL_KERNEL_TAG=csitool-$(uname -r | cut -d . -f 1-2)
 git clone https://github.com/FIVEYOUNGWOO/IEEE-802.11n-CSI-Camera-Synchronization-Toolkit.git
 ```
 ```ruby
-cd CSI-Camera-Synchronization-Toolkit/linux-80211n-csitool
+cd IEEE-802.11n-CSI-Camera-Synchronization-Toolkit/linux-80211n-csitool
 ```
 ```ruby
 git checkout ${CSITOOL_KERNEL_TAG}
@@ -98,7 +122,7 @@ sudo make -C /lib/modules/$(uname -r)/build M=$(pwd)/drivers/net/wireless/iwlwif
 for file in /lib/firmware/iwlwifi-5000-*.ucode; do sudo mv $file $file.orig; done
 ```
 ```ruby
-sudo cp CSI-Camera-Synchronization-Toolkit/supplementary/firmware/iwlwifi-5000-2.ucode.sigcomm2010 /lib/firmware/
+sudo cp IEEE-802.11n-CSI-Camera-Synchronization-Toolkit/supplementary/firmware/iwlwifi-5000-2.ucode.sigcomm2010 /lib/firmware/
 ```
 ```ruby
 sudo ln -s iwlwifi-5000-2.ucode.sigcomm2010 /lib/firmware/iwlwifi-5000-2.ucode
@@ -106,12 +130,12 @@ sudo ln -s iwlwifi-5000-2.ucode.sigcomm2010 /lib/firmware/iwlwifi-5000-2.ucode
 
 ## (6). Build the userspace logging tool:
 ```ruby
-make -C CSI-Camera-Synchronization-Toolkit/supplementary/netlink
+make -C IEEE-802.11n-CSI-Camera-Synchronization-Toolkit/supplementary/netlink
 ```
 
-## (7). Unzip OpenCV for utlizing the USB camera:
+## (7). Unzip OpenCV to utilize the USB camera:
 ```ruby
-cd CSI-Camera-Synchronization-Toolkit/camera_tool
+cd IEEE-802.11n-CSI-Camera-Synchronization-Toolkit/camera_tool
 ```
 ```ruby
 unzip opencv-2.4.13.6.zip
@@ -158,7 +182,7 @@ sudo reboot
 
 ## (10). Compile user-application:
 ```ruby
-cd CSI-Camera-Synchronization-Toolkit/supplementary/netlink
+cd IEEE-802.11n-CSI-Camera-Synchronization-Toolkit/supplementary/netlink
 ```
 ```ruby
 sudo gedit /etc/ld.so.conf.d/opencv.conf
@@ -215,11 +239,11 @@ where the camera parameters constructed [*Camera ID*] [*Save Interval*] [*Auto E
 
 Open the first Linux kernel and write the below command:
 ```ruby
-cd CSI-Camera-Synchronization-Toolkit/supplementary/netlink/camera 0 1 0
+cd IEEE-802.11n-CSI-Camera-Synchronization-Toolkit/supplementary/netlink/camera 0 1 0
 ```
 Open the second Linux kernel to execute 'log_to_file':
 ```ruby
-cd CSI-Camera-Synchronization-Toolkit/supplementary/netlink/log_to_file test.dat
+cd IEEE-802.11n-CSI-Camera-Synchronization-Toolkit/supplementary/netlink/log_to_file test.dat
 ```
 Open another kernel terminal, where ping testing is a way to encourage the collection of more CSI samples:
 ```ruby
