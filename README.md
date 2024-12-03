@@ -318,13 +318,13 @@ ping 192.xxx.xxx.xxx -i 0.3
 
 Open the first Linux kernel to execute 'log_to_file':
 ```ruby
-cd linux-80211n-csitool-supplementary/netlink
+cd IEEE-802.11n-CSI-Camera-Synchronization-Toolkit/supplementary/netlink
 sudo ./log_to_file test.dat
 ```
 
 Open the second Linux kernel and write the below command:
 ```ruby
-cd linux-80211n-csitool-supplementary/netlink
+cd IEEE-802.11n-CSI-Camera-Synchronization-Toolkit/supplementary/netlink
 ./camera 0 1 0
 ```
 
