@@ -69,49 +69,28 @@ sudo apt update
 ```ruby
 ls -l /usr/bin/gcc /usr/bin/g++
 ```
-
-## (4). Build and install the modified wireless LAN driver:
 ```ruby
-sudo apt-get install gcc make linux-headers-$(uname -r) git-core
+sudo rm /usr/bin/gcc
 ```
 ```ruby
-CSITOOL_KERNEL_TAG=csitool-$(uname -r | cut -d . -f 1-2)
+sudo rm /usr/bin/g++
 ```
 ```ruby
-git clone https://github.com/FIVEYOUNGWOO/IEEE-802.11n-CSI-Camera-Synchronization-Toolkit.git
+sudo ln -s /usr/bin/gcc-8 /usr/bin/gcc
 ```
 ```ruby
-cd CSI-Camera-Synchronization-Toolkit/linux-80211n-csitool
+sudo ln -s /usr/bin/g++-8 /usr/bin/g++
 ```
 ```ruby
-git checkout ${CSITOOL_KERNEL_TAG}
+ls -l /usr/bin/gcc /usr/bin/g++
 ```
 ```ruby
-make -C /lib/modules/$(uname -r)/build M=$(pwd)/drivers/net/wireless/iwlwifi modules
-```
-```ruby
-sudo make -C /lib/modules/$(uname -r)/build M=$(pwd)/drivers/net/wireless/iwlwifi INSTALL_MOD_DIR=updates
+sudo apt update
 ```
 
-## (5). Install the Modified firmware:
+## (4). Unzip OpenCV for utlizing the USB camera:
 ```ruby
-for file in /lib/firmware/iwlwifi-5000-*.ucode; do sudo mv $file $file.orig; done
-```
-```ruby
-sudo cp CSI-Camera-Synchronization-Toolkit/supplementary/firmware/iwlwifi-5000-2.ucode.sigcomm2010 /lib/firmware/
-```
-```ruby
-sudo ln -s iwlwifi-5000-2.ucode.sigcomm2010 /lib/firmware/iwlwifi-5000-2.ucode
-```
-
-## (6). Build the userspace logging tool:
-```ruby
-make -C CSI-Camera-Synchronization-Toolkit/supplementary/netlink
-```
-
-## (7). Unzip OpenCV for utlizing the USB camera:
-```ruby
-cd CSI-Camera-Synchronization-Toolkit/camera_tool
+cd IEEE-802.11n-CSI-Camera-Synchronization-Toolkit/camera_tool
 ```
 ```ruby
 unzip opencv-2.4.13.6.zip
@@ -120,7 +99,7 @@ unzip opencv-2.4.13.6.zip
 cd opencv-2.4.13.6/install
 ```
 
-## (8). Compile and install OpenCV:
+## (5). Compile and install OpenCV:
 ```ruby
 cmake -D CMAKE_BUILD_TYPE=RELEASE -D CMAKE_INSTALL_PREFIX=/usr/local ..
 ```
@@ -134,39 +113,156 @@ make
 sudo make install
 ```
 
-## (9). Configuration OpenCV:
+## (6). Configuration OpenCV:
 ```ruby
 sudo gedit /etc/ld.so.conf.d/opencv.conf
 ```
 Then add the /usr/local/lib command to the file.
+```
+  /usr/local/lib
+```
 ```ruby
 sudo ldconfig
 ```
+Then add the following command to the end of the file:
 ```ruby
 sudo gedit /etc/bash.bashrc
 ```
-Then add the following command to the end of the file:
-```ruby
-PKG_CONFIG_PATH=$PKG_CONFIG_PATH:/usr/local/lib/pkgconfig
 ```
-```ruby
-export PKG_CONFIG_PATH
+  PKG_CONFIG_PATH=$PKG_CONFIG_PATH:/usr/local/lib/pkgconfig
+  export PKG_CONFIG_PATH
 ```
 ```ruby
 sudo reboot
 ```
 
-## (10). Compile user-application:
+## (7). If a kernel change is needed (optional)
+Installing a specific kernel version
 ```ruby
-cd CSI-Camera-Synchronization-Toolkit/supplementary/netlink
+sudo apt-get install linux-image-4.15.0-20-generic
+sudo apt-get install linux-headers-4.15.0-20-generic
+sudo apt-get install linux-modules-4.15.0-20-generic
+sudo apt-get install linux-modules-extra-4.15.0-20-generic
+```
+
+GRUB set
+```ruby
+sudo gedit /etc/default/grub
+```
+```
+  ... Omitted parts ...
+
+  ## Setting the name of the installed Linux kernel version
+  GRUB_DEFAULT='Advanced options for Ubuntu>Ubuntu, with Linux 4.15.0-20-generic'
+
+  ## With the settings below, a countdown screen will appear for 3 seconds.
+  ## During the countdown, pressing the 'ESC', 'F4', or 'SHIFT' key will bring up the GRUB boot menu.
+  ## At this point, you can choose a kernel version other than the default kernel version.
+  GRUB_TIMEOUT_STYLE=countdown
+  GRUB_TIMEOUT=3
+
+  ... Omitted parts ...
+```
+
+GRUB update
+```ruby
+sudo update-grub
+```
+```
+  Sourcing file `/etc/default/grub'
+  Generating grub configuration file ...
+  Found linux image: /boot/vmlinuz-4.15.0-20-generic
+
+  ... Omitted parts ...
+```
+```ruby
+reboot
+```
+
+Press [ESC], [SHIFT], or [F4] to select the desired Linux kernel version, such as "Linux 4.15.0-20-generic."
+```ruby
+sudo apt-get install gcc make linux-headers-$(uname -r) git-core
+```
+```ruby
+sudo apt update
+```
+
+## (8). Build and install the modified wireless LAN driver:
+```ruby
+git clone https://github.com/spanev/linux-80211n-csitool.git
+```
+```ruby
+cd linux-80211n-csitool
+```
+```ruby
+CSITOOL_KERNEL_TAG=csitool-$(uname -r | cut -d . -f 1-2)
+```
+```ruby
+git checkout ${CSITOOL_KERNEL_TAG}
+```
+```ruby
+make -j `nproc` -C /lib/modules/$(uname -r)/build M=$(pwd)/drivers/net/wireless/intel/iwlwifi modules
+```
+```ruby
+sudo make -C /lib/modules/$(uname -r)/build M=$(pwd)/drivers/net/wireless/intel/iwlwifi INSTALL_MOD_DIR=updates modules_install
+```
+```ruby
+sudo depmod
+```
+```ruby
+cd ..
+```
+
+## (9). Install the Modified firmware:
+```ruby
+git clone https://github.com/dhalperi/linux-80211n-csitool-supplementary.git
+```
+```ruby
+for file in /lib/firmware/iwlwifi-5000-*.ucode; do sudo mv $file $file.orig; done
+```
+```ruby
+sudo cp linux-80211n-csitool-supplementary/firmware/iwlwifi-5000-2.ucode.sigcomm2010 /lib/firmware/
+```
+```ruby
+sudo ln -s iwlwifi-5000-2.ucode.sigcomm2010 /lib/firmware/iwlwifi-5000-2.ucode
+```
+
+## (10). Build the userspace logging tool:
+```ruby
+make -C linux-80211n-csitool-supplementary/netlink
+```
+
+## (11). Compile user-application:
+```ruby
+cd IEEE-802.11n-CSI-Camera-Synchronization-Toolkit/supplementary/netlink
 ```
 ```ruby
 sudo gedit /etc/ld.so.conf.d/opencv.conf
 ```
 Then add the /usr/local/lib command to the file.
+```
+  /usr/local/lib
+```
 ```ruby
 make
 ```
+Check if CSI data can be received from WiFi (refer to Guide 2-1).
+
+## (12). Install v4l utils and vlc
+Check your camera device
+```ruby
+ls -ltr /dev/video*
+```
+```ruby
+sudo apt-get install v4l-utils -y
+```
+```ruby
+v4l2-ctl --list-devices
+```
+```ruby
+sudo apt install vlc
+```
+Open the installed vlc media player and select your camera device ex)'/dev/vidio0' in 'Capture Device'. Press the play button to check if the camera is operating normally.
 
 # 2. Guideline Operation of integrated CSI toolkit
 ## (1). setting of the WiFi router and wireless LAN card:
@@ -213,15 +309,21 @@ where the camera parameters constructed [*Camera ID*] [*Save Interval*] [*Auto E
 
 [*Auto Exit*]: This parameter controls whether the program automatically exits when CSI collects stops. When set to 0, This program will always run. When set to 1, This program will automatically exit when no CSI is acquired within 1 second.
 
-Open the first Linux kernel and write the below command:
-```ruby
-cd CSI-Camera-Synchronization-Toolkit/supplementary/netlink/camera 0 1 0
-```
-Open the second Linux kernel to execute 'log_to_file':
-```ruby
-cd CSI-Camera-Synchronization-Toolkit/supplementary/netlink/log_to_file test.dat
-```
+
 Open another kernel terminal, where ping testing is a way to encourage the collection of more CSI samples:
 ```ruby
-ping 192.xxx.xx.xx -i 0.3
+ping 192.xxx.xxx.xxx -i 0.3
 ```
+
+Open the first Linux kernel to execute 'log_to_file':
+```ruby
+cd linux-80211n-csitool-supplementary/netlink
+sudo ./log_to_file test.dat
+```
+
+Open the second Linux kernel and write the below command:
+```ruby
+cd linux-80211n-csitool-supplementary/netlink
+./camera 0 1 0
+```
+
