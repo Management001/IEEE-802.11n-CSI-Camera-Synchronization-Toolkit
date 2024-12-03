@@ -228,6 +228,7 @@ sudo ln -s iwlwifi-5000-2.ucode.sigcomm2010 /lib/firmware/iwlwifi-5000-2.ucode
 ```
 
 ## (10). Build the userspace logging tool:
+Replace the camera.cpp and Makefile files in the path \IEEE-802.11n-CSI-Camera-Synchronization-Toolkit\supplementary\netlink
 ```ruby
 make -C linux-80211n-csitool-supplementary/netlink
 ```
