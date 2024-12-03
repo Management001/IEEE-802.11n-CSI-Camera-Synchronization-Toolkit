@@ -221,7 +221,7 @@ git clone https://github.com/dhalperi/linux-80211n-csitool-supplementary.git
 for file in /lib/firmware/iwlwifi-5000-*.ucode; do sudo mv $file $file.orig; done
 ```
 ```ruby
-sudo cp linux-80211n-csitool-supplementary/firmware/iwlwifi-5000-2.ucode.sigcomm2010 /lib/firmware/
+sudo cp IEEE-802.11n-CSI-Camera-Synchronization-Toolkit/supplementary/firmware/iwlwifi-5000-2.ucode.sigcomm2010 /lib/firmware/
 ```
 ```ruby
 sudo ln -s iwlwifi-5000-2.ucode.sigcomm2010 /lib/firmware/iwlwifi-5000-2.ucode
@@ -230,7 +230,7 @@ sudo ln -s iwlwifi-5000-2.ucode.sigcomm2010 /lib/firmware/iwlwifi-5000-2.ucode
 ## (10). Build the userspace logging tool:
 Replace the "camera.cpp" and "Makefile" files in the path /CSI-Camera-Synchronization-Toolkit/supplementary/netlink
 ```ruby
-make -C CSI-Camera-Synchronization-Toolkit/supplementary/netlink
+make -C IEEE-802.11n-CSI-Camera-Synchronization-Toolkit/supplementary/netlink
 ```
 
 ## (11). Compile user-application:
