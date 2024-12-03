@@ -221,21 +221,21 @@ git clone https://github.com/dhalperi/linux-80211n-csitool-supplementary.git
 for file in /lib/firmware/iwlwifi-5000-*.ucode; do sudo mv $file $file.orig; done
 ```
 ```ruby
-sudo cp IEEE-802.11n-CSI-Camera-Synchronization-Toolkit/supplementary/firmware/iwlwifi-5000-2.ucode.sigcomm2010 /lib/firmware/
+sudo cp linux-80211n-csitool-supplementary/firmware/iwlwifi-5000-2.ucode.sigcomm2010 /lib/firmware/
 ```
 ```ruby
 sudo ln -s iwlwifi-5000-2.ucode.sigcomm2010 /lib/firmware/iwlwifi-5000-2.ucode
 ```
 
 ## (10). Build the userspace logging tool:
-Replace the "camera.cpp" and "Makefile" files in the path /CSI-Camera-Synchronization-Toolkit/supplementary/netlink
+Replace the "camera.cpp" and "Makefile" files in the path linux-80211n-csitool-supplementary/netlink
 ```ruby
-make -C IEEE-802.11n-CSI-Camera-Synchronization-Toolkit/supplementary/netlink
+make -C linux-80211n-csitool-supplementary/netlink
 ```
 
 ## (11). Compile user-application:
 ```ruby
-cd IEEE-802.11n-CSI-Camera-Synchronization-Toolkit/supplementary/netlink
+cd linux-80211n-csitool-supplementary/netlink
 ```
 ```ruby
 sudo gedit /etc/ld.so.conf.d/opencv.conf
@@ -318,13 +318,13 @@ ping 192.xxx.xxx.xxx -i 0.3
 
 Open the first Linux kernel to execute 'log_to_file':
 ```ruby
-cd IEEE-802.11n-CSI-Camera-Synchronization-Toolkit/supplementary/netlink
+cd linux-80211n-csitool-supplementary/netlink
 sudo ./log_to_file test.dat
 ```
 
 Open the second Linux kernel and write the below command:
 ```ruby
-cd IEEE-802.11n-CSI-Camera-Synchronization-Toolkit/supplementary/netlink
+cd linux-80211n-csitool-supplementary/netlink
 ./camera 0 1 0
 ```
 
