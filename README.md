@@ -59,7 +59,7 @@ Researchers in the field of mobility detection using WiFi-CSI have discussed the
 #### Iftikhar Ahmad (Ph.D. student, Project member)
 - Focused on developing the Teacher network in the multi-modal AI model.
 - He will receive a *Project manager* position on this future project after Mar. 2024.
-- 
+
 #### Manal Mosharaf (M.S. student, Project member)
 - Engaged in developing the Student network in the multi-modal AI model.
 
