@@ -48,18 +48,18 @@ Researchers in the field of mobility detection using WiFi-CSI have discussed the
 </table>
 
 # Project Members
-#### [Youngwoo Oh](https://ohyoungwoo.com/) (M.S. student, Project leader from May 2023 to Feb. 2024 (for 10 months))
+#### [Youngwoo Oh](https://ohyoungwoo.com/) (M.S. student, Project manager from May 2023 to Feb. 2024 (for 10 months))
 - Integrated sensor fusion between the WiFi and captured image from the TP-Link router and USB camera by developing the [Linux toolkit codes](https://github.com/FIVEYOUNGWOO/IEEE-802.11n-CSI-Camera-Synchronization-Toolkit).
 - Responsible for sensor fusion and SW/HW configuration and produced a Teacher-Student architecture to detect and track objects beyond walls and obstacles.
 - Wrote papers for the [2024 Winter Conference on Korea Information and Communications Society (KICS)](https://conf.kics.or.kr/) titled "*Collection and Analysis of CSI in IEEE 802.11n Wireless LAN Environments for WiFi Signal-Based Human Mobility Detection*" and "*Design and Implementation of a MultiModal Learning Model for RF-Based Object Tracking Methods*".
   
 #### Islam Helemy (Ph.D. student, Project member)
 - Responsible for the development of the Multi-modal AI and the pre-processing to generate training data pairs (CSI samples-captured images).
-- He will receive a *project leader* position on this future project after Mar. 2024.
 
 #### Iftikhar Ahmad (Ph.D. student, Project member)
 - Focused on developing the Teacher network in the multi-modal AI model.
-
+- He will receive a *Project manager* position on this future project after Mar. 2024.
+- 
 #### Manal Mosharaf (M.S. student, Project member)
 - Engaged in developing the Student network in the multi-modal AI model.
 
