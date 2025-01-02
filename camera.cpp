@@ -56,35 +56,48 @@ int main(int argc, char** argv)
 {
 	check_usage(argc, argv);
 	sscanf(argv[1], "%u", &camera_id);
-	sscanf(argv[2], "%u", &save_interval);
-	sscanf(argv[3], "%u", &auto_exit);
-	signal(SIGINT, sig_int);
+	sscanf(argv[2], "%u", &save_interval); // 인터벌
+	sscanf(argv[3], "%u", &auto_exit); // 자동종료 시점
+	
+	signal(SIGINT, sig_int); // ctrl+c -> 종료하도록 설정
 	shmid = shmget(0x5120, sizeof(MSG), IPC_CREAT | 0666);
 	if (shmid == -1)
 	{
 		perror("ipc err 1");
 		return errno;
 	}
+	
 	void *shm = shmat(shmid, NULL, 0);
+	
 	MSG *p = (MSG*)shm;
 	if (p == (void *)-1)
 	{
 		perror("ipc err 2");
 		return errno;
 	}
+	
+	if (strlen(p->path) == 0) { // 경로 문제시 종료
+		printf("Error: p->path is empty!\n");
+		exit_ex();
+	}
+	
 	cv::VideoCapture camera(camera_id);
 	camera_ptr=&camera;
+	
 	int frame_width = camera_ptr->get(CV_CAP_PROP_FRAME_WIDTH);
 	int frame_height = camera_ptr->get(CV_CAP_PROP_FRAME_HEIGHT);
 	camera_ptr->set(CV_CAP_PROP_FRAME_WIDTH, frame_width);
 	camera_ptr->set(CV_CAP_PROP_FRAME_HEIGHT, frame_height);
+	
 	if (!camera_ptr->isOpened())
 	{
 		cout << "Error opening video stream" << endl;
 		return 1;
 	}
+	
 	CvFont font;
 	cvInitFont(&font, CV_FONT_HERSHEY_DUPLEX, 1, 1, 0, 1, 4);
+	
 	while (1)
 	{
 		cv::Mat3b frame0;
@@ -102,17 +115,20 @@ int main(int argc, char** argv)
 					if (system(cmd_str)) exit_ex();
 					path_initial = true;
 				}
-				sprintf(file_str, "%s%s%c%d%s", "pic_",p->path, '/', save_count++, ".jpg");
-				frame_count = 0;
-				if (!cvSaveImage(file_str, &img))
+				sprintf(file_str, "%s%s%c%d%s", "pic_",p->path, '/', save_count++, ".jpg"); // 자동으로 값 카운팅
+				frame_count = 0; // 인터벌 카운트 초기화
+				if (!cvSaveImage(file_str, &img)) // 경로에 사진 저장 수행 but 문제가 존재하는 경우
 				{
 					cout << "file path error " << endl;
 					exit_ex();
 				}
-			    if (count_last == p->count)
+			    if (count_last == p->count) // 카운트 마지막과 현재 카운트가 동일한 경우
 			    {
 					timeout_count++;
-					if((timeout_count*(save_interval+1)>30)&&auto_exit) {cout <<"Timeout Auto Exit"<< endl; exit_ex();}
+					if((timeout_count*(save_interval+1)>30)&&auto_exit) // timeout_count
+					{
+						cout <<"Timeout Auto Exit"<< endl; exit_ex();
+					}
 				}
 			    count_last = p->count;
 			}
